@@ -5,22 +5,16 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "accelerate>=1.11.0",
-    "datasets>=4.7.0",
-    "gradio>=6.9.0",
-    "huggingface-hub>=0.33.4",
-    "pydantic>=2.11.7",
-    "sentencepiece>=0.2.0",
-    "spaces>=0.47.0",
-    "sympy==1.14.0",
-    "torch>=2.10.0",
-    "transformers>=4.55.2",
+    "wheel",
+    "streamlit",
+    "ddgs",
+    "gradio>=5.0.0",
+    "torch>=2.8.0",
+    "transformers>=4.53.3",
+    "spaces",
+    "sentencepiece",
+    "accelerate",
+    "autoawq",
+    "timm",
+    "compressed-tensors"
 ]
-
-[build-system]
-requires = ["uv_build>=0.10.9,<0.11.0"]
-build-backend = "uv_build"
-
-[tool.uv.build-backend]
-module-name = "linalg_zero"
-module-root = ""
