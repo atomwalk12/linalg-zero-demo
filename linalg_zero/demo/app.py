@@ -946,4 +946,10 @@ with gr.Blocks(title="LLM Inference with ZeroGPU") as demo:
         outputs=ui_components
     )
 
-    demo.launch(theme=demo_theme, css=demo_css, share=True)
+if __name__ == "__main__":
+    demo.launch(
+        theme=demo_theme,
+        css=demo_css,
+        share=False,
+        ssr_mode=False,
+    )
