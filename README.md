@@ -1,13 +1,22 @@
+---
+title: Linalg-Zero
+emoji: 🧠
+colorFrom: indigo
+colorTo: purple
+sdk: gradio
+sdk_version: 6.9.0
+app_file: ./linalg_zero/demo/app.py
+pinned: false
+license: apache-2.0
+python_version: 3.12.12
+short_description: Streaming LLM chat using the linalg-zero family of models.
+---
+
 [![Release](https://img.shields.io/github/v/release/atomwalk12/linalg-zero)](https://img.shields.io/github/v/release/atomwalk12/linalg-zero)
 [![Build status](https://img.shields.io/github/actions/workflow/status/atomwalk12/linalg-zero/main.yml?branch=main)](https://github.com/atomwalk12/linalg-zero/actions/workflows/main.yml?query=branch%3Amain)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 # Linalg-Zero
-
-Check out the poster [here](docs/poster.pdf) and the paper [here](docs/report.pdf).
-
-<img width="14173" height="8504" alt="poster" src="https://github.com/user-attachments/assets/b7019c34-8dcf-45a3-830e-050a822e9ff0" />
-
 
 ## Overview
 

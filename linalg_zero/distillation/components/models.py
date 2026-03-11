@@ -4,8 +4,17 @@ from abc import ABC, abstractmethod
 from enum import Enum
 from typing import TYPE_CHECKING, Any
 
-from distilabel.errors import DistilabelUserError
-from distilabel.typing import ChatType
+try:
+    from distilabel.errors import DistilabelUserError
+except ImportError:
+    class DistilabelUserError(ValueError):
+        """Fallback error type for runtime paths that do not install distilabel."""
+
+
+if TYPE_CHECKING:
+    from distilabel.typing import ChatType
+else:
+    ChatType = dict[str, Any]
 
 from linalg_zero.distillation.data import ThoughtSchema
 from linalg_zero.shared.system_prompts import (
