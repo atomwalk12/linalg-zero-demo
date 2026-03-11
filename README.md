@@ -8,8 +8,6 @@ sdk_version: "6.9.0"
 python_version: "3.12.12"
 app_file: linalg_zero/demo/app.py
 pinned: false
-license: apache-2.0
-short_description: Streaming LLM chat using the linalg-zero family of models.
 ---
 
 [![Release](https://img.shields.io/github/v/release/atomwalk12/linalg-zero)](https://img.shields.io/github/v/release/atomwalk12/linalg-zero)
