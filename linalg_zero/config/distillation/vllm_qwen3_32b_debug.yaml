@@ -1,0 +1,46 @@
+# Dataset parameters
+dataset_name: "atomwalk12/linalgzero"
+debug_mode: False
+dataset_config: null
+n_turns: 8
+take_n: 500
+
+# Prompt parameters
+prompt_column: "prompt"
+prompt_template: "{{ instruction }}"
+
+# Generation parameters
+model_type: "default"
+deterministic: false
+max_new_tokens: 4096
+num_generations: 1
+enable_reasoning: true
+
+# Processing parameters
+input_batch_size: 24
+use_cache: true
+timeout: 600
+retries: 5
+
+# Output parameters
+hf_output_dataset: "atomwalk12/linalgzero-distilled-500"
+argilla_output_dataset: "atomwalk12/linalgzero-distilled-500"
+private: false
+
+# Server parameters
+model: "Qwen/Qwen3-32B-FP8"
+tool_call_parser: "hermes"
+reasoning_parser: "qwen3"
+
+enable_auto_tool_choice: true
+host: "localhost"
+port: 8000
+
+dtype: "bfloat16"
+kv_cache_dtype: "auto"
+max_num_seqs: 24
+max_model_len: 24576
+gpu_memory_utilization: 0.93
+enable_chunked_prefill: true
+swap_space: 8
+max_num_batched_tokens: 1024

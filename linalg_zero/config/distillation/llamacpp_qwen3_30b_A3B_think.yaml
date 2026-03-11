@@ -1,0 +1,49 @@
+######################
+# DistillationConfig #
+######################
+
+# Dataset parameters
+dataset_name: "atomwalk12/linalgzero"
+debug_mode: True
+take_n: 20
+n_turns: 6
+
+# Prompt parameters
+prompt_column: "prompt"
+prompt_template: "{{ instruction }}"
+
+# Generation parameters
+model_type: "default"
+deterministic: true
+max_new_tokens: 8192
+num_generations: 1
+
+# Processing parameters
+input_batch_size: 5
+use_cache: true
+client_replicas: 1
+timeout: 600
+retries: 2
+
+# Output parameters
+hf_output_dataset: "atomwalk12/linalgzero-distilled-debug"
+argilla_output_dataset: "atomwalk12/linalgzero-distilled-debug"
+private: false
+
+########################
+# LlamaCppServerConfig #
+########################
+
+# Server parameters
+host: "localhost"
+port: 8000
+
+# Model
+model: "Qwen3-30B-A3B-Thinking-2507-UD-Q5_K_XL.gguf"
+hf_model_repo_id: "unsloth/Qwen3-30B-A3B-Thinking-2507-GGUF"
+hf_pretrained_model_name_or_path: "Qwen/Qwen3-32B"
+enable_reasoning: true
+
+n_gpu_layers: 45
+n_ctx: 8192
+split_mode: 2

@@ -1,0 +1,95 @@
+defaults:
+  - /training@training: training_schema
+  - /run@run: run_schema
+  - _self_
+
+
+init:
+  max_lora_rank: 32
+  dtype: bfloat16
+  load_in_4bit: false
+  load_in_8bit: false
+  max_seq_length: 10240
+
+training:
+  eval_retries: 3
+  trajectories_per_group: 8
+  groups_per_step: 16
+  learning_rate: 1e-6
+  beta: 0.0
+  eval_steps: 100
+  num_epochs: 3
+  train_mode: sync_rl
+  importance_sampling_level: sequence
+  scale_rewards: True
+  epsilon: 3e-4
+  epsilon_high: 4e-4
+  chat_template: "{%- if tools %}\n    {{- '<|im_start|>system\\n' }}\n    {%- if messages[0]['role'] == 'system' %}\n        {{- messages[0]['content'] }}\n    {%- else %}\n        {{- 'You are a helpful assistant.' }}\n    {%- endif %}\n    {{- \"\\n\\n# Tools\\n\\nYou may call one or more functions to assist with the user query.\\n\\nYou are provided with function signatures within <tools></tools> XML tags:\\n<tools>\" }}\n    {%- for tool in tools %}\n        {{- \"\\n\" }}\n        {{- tool | tojson }}\n    {%- endfor %}\n    {{- \"\\n</tools>\\n\\nFor each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:\\n<tool_call>\\n{\\\"name\\\": <function-name>, \\\"arguments\\\": <args-json-object>}\\n</tool_call><|im_end|>\\n\" }}\n{%- else %}\n    {%- if messages[0]['role'] == 'system' %}\n        {{- '<|im_start|>system\\n' + messages[0]['content'] + '<|im_end|>\\n' }}\n    {%- else %}\n        {{- '<|im_start|>system\\nYou are a helpful assistant.<|im_end|>\\n' }}\n    {%- endif %}\n{%- endif %}\n{%- for message in messages %}\n    {%- if (message.role == \"user\") or (message.role == \"system\" and not loop.first) or (message.role == \"assistant\" and not message.tool_calls) %}\n        {{- '<|im_start|>' + message.role + '\\n' + message.content + '<|im_end|>' + '\\n' }}\n    {%- elif message.role == \"assistant\" %}\n        {{- '<|im_start|>' + message.role }}\n        {%- if message.content %}\n            {{- '\\n' + message.content }}\n        {%- endif %}\n        {%- for tool_call in message.tool_calls %}\n            {%- if tool_call.function is defined %}\n                {%- set tool_call = tool_call.function %}\n            {%- endif %}\n            {{- '\\n<tool_call>\\n{\"name\": \"' }}\n            {{- tool_call.name }}\n            {{- '\", \"arguments\": ' }}\n            {{- tool_call.arguments | tojson }}\n            {{- '}\\n</tool_call>' }}\n        {%- endfor %}\n        {{- '<|im_end|>\\n' }}\n    {%- elif message.role == \"tool\" %}\n        {%- if (loop.index0 == 0) or (messages[loop.index0 - 1].role != \"tool\") %}\n            {{- '<|im_start|>user' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- message.content }}\n        {{- '\\n</tool_response>' }}\n        {%- if loop.last or (messages[loop.index0 + 1].role != \"tool\") %}\n            {{- '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|im_start|>assistant\\n' }}\n{%- endif %}\n"
+
+run:
+  project_id: test
+  project: linalgzero-temp
+  base_model: "atomwalk12/LinalgZero-SFT"
+  model: "atomwalk12/LinalgZero-SFT"
+  dataset_path: "atomwalk12/linalgzero-grpo"
+  env: linear_algebra
+  curriculum:
+    enabled: true
+    metric: tool_calls
+    sampling: mixture
+    initial_max_tool_calls: 1
+    final_max_tool_calls: 3
+    mixture_sigma: 0.5
+    mixture_min_prob_easiest: 0.1
+    fraction_at_start: 1.0
+    fraction_at_end: 1.0
+    min_total_tasks: 64
+  model_provider: hosted_vllm
+  user_strategy: mathematician
+  agent_strategy: tool-calling-rl
+  temperature: 1.0
+  top_p: 1.0
+  repetition_penalty: 1.0
+  task_split: test
+  log_dir: rl_results
+  skip_eval: False
+  in_process: False
+  max_assistant_turns: 5
+  max_completion_tokens: 1536
+  skip_special_tokens: False
+  stop: [
+    "<tool_response>",
+    "</tool_response>",
+    "User:",
+  ]
+  seed: 42
+
+peft:
+  r: 32
+  lora_alpha: 64
+  use_gradient_checkpointing: "unsloth"
+  target_modules: ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+  random_state: 42
+
+trainer:
+  learning_rate: 1e-6
+  per_device_train_batch_size: 8
+  gradient_accumulation_steps: 1   # if != 1, deadlock occurs
+  num_generations: 2
+  max_prompt_length: 8192
+  max_completion_length: 1536
+  report_to: ["wandb"]
+  save_total_limit: 10
+  seed: 42
+  data_seed: 42
+  max_grad_norm: 1.0
+
+engine:
+  gpu_memory_utilization: 0.33
+  max_lora_rank: 32
+  enable_sleep_mode: true
+  max_model_len: 10240
+  dtype: 'bfloat16'
+  quantization: null
+  load_format: 'auto'
+  seed: 42

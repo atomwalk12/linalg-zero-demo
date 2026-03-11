@@ -1,0 +1,42 @@
+# Initial dirty: 49 entries
+
+##############
+# Tool calls #
+##############
+120:
+  to_remove: [4, 5]
+  remove_reason:
+    "4,5": "exact msg/tool call with 2,3"
+  # Note that when counting these fields, they start from 0.
+  initial_msg_count: 9
+  expected_final_msg_count: 7
+
+
+419:
+  to_remove: [8, 9]
+  remove_reason:
+    "8,9": "exact msg/tool call with 6,7"
+  initial_msg_count: 11
+  expected_final_msg_count: 9
+
+
+1203:
+  to_remove: [4,5]
+  remove_reason:
+    "4,5": "exact msg/tool call with 2,3"
+  initial_msg_count: 7
+  expected_final_msg_count: 5
+
+################
+# Final answer #
+################
+1052:
+  to_remove: [4,5]
+  remove_reason:
+    "4,5": "exact msg/tool call with 2,3"
+  to_replace:
+    6:
+      "content":
+        "think": "<think>This tool call completes the task. Now, I can provide the final answer.</think>"
+  initial_msg_count: 7
+  expected_final_msg_count: 5

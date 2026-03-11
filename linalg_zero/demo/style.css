@@ -1,0 +1,150 @@
+/* Custom CSS for LLM Inference Interface */
+
+/* Header styling */
+.markdown h1 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.markdown h3 {
+    color: #4a5568;
+    font-weight: 600;
+    margin-top: 0.25rem;
+}
+
+/* Duration estimate styling */
+.duration-estimate {
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    border-left: 4px solid #667eea;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 16px 0;
+    font-size: 0.9em;
+}
+
+/* Group styling for better visual separation */
+.gradio-group {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    background: #f8fafc;
+    margin-bottom: 16px;
+}
+
+/* Accordion styling */
+.gradio-accordion {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.gradio-accordion .label-wrap {
+    background: #f1f5f9;
+    font-weight: 600;
+}
+
+/* Chat interface improvements */
+.chatbot {
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Input area styling */
+.textbox-container {
+    border-radius: 24px;
+    border: 2px solid #e2e8f0;
+    transition: border-color 0.2s;
+}
+
+.textbox-container:focus-within {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Button improvements */
+.gradio-button {
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.gradio-button.primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+}
+
+.gradio-button.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.gradio-button.secondary {
+    border: 2px solid #e2e8f0;
+    background: white;
+}
+
+.gradio-button.secondary:hover {
+    border-color: #cbd5e0;
+    background: #f7fafc;
+}
+
+/* Slider styling */
+.gradio-slider {
+    margin: 8px 0;
+}
+
+.gradio-slider input[type="range"] {
+    accent-color: #667eea;
+}
+
+/* Info text styling */
+.info {
+    color: #718096;
+    font-size: 0.85em;
+    font-style: italic;
+}
+
+/* Footer styling */
+.footer .markdown {
+    text-align: center;
+    color: #718096;
+    font-size: 0.9em;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .gradio-row {
+        flex-direction: column;
+    }
+
+    .chatbot {
+        height: 400px !important;
+    }
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.generating {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Smooth transitions */
+* {
+    transition: background-color 0.2s, border-color 0.2s;
+}

@@ -1,0 +1,52 @@
+# Dataset parameters
+dataset_name: "atomwalk12/linalgzero"
+debug_mode: true
+dataset_config: null
+n_turns: 6
+take_n: 7
+min_successful_completions: 8200
+
+# Prompt parameters
+prompt_column: "prompt"
+prompt_template: "{{ instruction }}"
+
+# Generation parameters
+model_type: "default"
+deterministic: false
+max_new_tokens: 2048
+num_generations: 1
+enable_reasoning: true
+strip_think_prefix: false
+
+# Processing parameters
+input_batch_size: 3
+use_cache: true
+client_replicas: 1
+timeout: 600
+retries: 2
+
+# Output parameters
+hf_output_dataset: "atomwalk12/linalgzero-distilled-debug"
+argilla_output_dataset: "atomwalk12/linalgzero-distilled-debug"
+private: false
+
+# Server parameters
+model: "Eslzzyl/Qwen3-4B-Thinking-2507-AWQ"
+tool_call_parser: "hermes"
+reasoning_parser: "qwen3"
+
+enable_auto_tool_choice: true
+quantization: "awq"
+host: "localhost"
+port: 8000
+
+# Memory / performance tuning for 24GB GPU
+dtype: "float16"
+kv_cache_dtype: "auto"
+max_num_seqs: 1
+gpu_memory_utilization: 0.75
+enforce_eager: true
+swap_space: 4
+max_num_batched_tokens: 2048
+max_model_len: 8096
+enable_chunked_prefill: true

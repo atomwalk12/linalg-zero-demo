@@ -1,0 +1,12 @@
+wheel
+streamlit
+ddgs
+gradio>=5.0.0
+torch>=2.8.0
+transformers>=4.53.3
+spaces
+sentencepiece
+accelerate
+autoawq
+timm
+compressed-tensors

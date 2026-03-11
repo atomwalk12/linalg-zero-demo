@@ -1,0 +1,347 @@
+{
+  "one_determinant": {
+    "combination": [
+      0.9
+    ],
+    "score": 173.0,
+    "overall_min": -417.0,
+    "overall_max": 410.0,
+    "min_abs": 0.0,
+    "count": 8000,
+    "optimized": true,
+    "metadata": {
+      "is_single_step": true,
+      "components": [
+        "ONE_DETERMINANT"
+      ],
+      "difficulty_category": "ONE_TOOL_CALL",
+      "task_enum": "ONE_DETERMINANT",
+      "entropy_jitter": 0.2,
+      "min_element_abs": 2,
+      "step_size": 0.1,
+      "samples_per_test": 8000,
+      "target_min_value": -500,
+      "target_max_value": 500
+    }
+  },
+  "one_matrix_trace": {
+    "combination": [
+      2.1
+    ],
+    "score": 70.0,
+    "overall_min": -164.0,
+    "overall_max": 166.0,
+    "min_abs": 0.0,
+    "count": 8000,
+    "optimized": true,
+    "metadata": {
+      "is_single_step": true,
+      "components": [
+        "ONE_TRACE"
+      ],
+      "difficulty_category": "ONE_TOOL_CALL",
+      "task_enum": "ONE_TRACE",
+      "entropy_jitter": 0.2,
+      "min_element_abs": 2,
+      "step_size": 0.1,
+      "samples_per_test": 8000,
+      "target_min_value": -200,
+      "target_max_value": 200
+    }
+  },
+  "one_frobenius_norm": {
+    "combination": [
+      2.6
+    ],
+    "score": 157.77999999999997,
+    "overall_min": 18.57,
+    "overall_max": 460.79,
+    "min_abs": 18.57,
+    "count": 8000,
+    "optimized": true,
+    "metadata": {
+      "is_single_step": true,
+      "components": [
+        "ONE_FROBENIUS_NORM"
+      ],
+      "difficulty_category": "ONE_TOOL_CALL",
+      "task_enum": "ONE_FROBENIUS_NORM",
+      "entropy_jitter": 0.2,
+      "min_element_abs": 2,
+      "step_size": 0.1,
+      "samples_per_test": 8000,
+      "target_min_value": 0,
+      "target_max_value": 600
+    }
+  },
+  "one_matrix_rank": {
+    "combination": [
+      2.5
+    ],
+    "score": 0.0,
+    "overall_min": 1.0,
+    "overall_max": 3.0,
+    "min_abs": 1.0,
+    "count": 8000,
+    "optimized": true,
+    "metadata": {
+      "is_single_step": true,
+      "components": [
+        "ONE_RANK"
+      ],
+      "difficulty_category": "ONE_TOOL_CALL",
+      "task_enum": "ONE_RANK",
+      "entropy_jitter": 0.2,
+      "min_element_abs": 2,
+      "step_size": 0.1,
+      "samples_per_test": 8000,
+      "target_min_value": 1,
+      "target_max_value": 3
+    }
+  },
+  "one_matrix_transpose": {
+    "combination": [
+      3.2
+    ],
+    "score": 23.0,
+    "overall_min": -790.0,
+    "overall_max": 787.0,
+    "min_abs": 2.0,
+    "count": 52180,
+    "optimized": true,
+    "metadata": {
+      "is_single_step": true,
+      "components": [
+        "ONE_TRANSPOSE"
+      ],
+      "difficulty_category": "ONE_TOOL_CALL",
+      "task_enum": "ONE_TRANSPOSE",
+      "entropy_jitter": 0.2,
+      "min_element_abs": 2,
+      "step_size": 0.1,
+      "samples_per_test": 8000,
+      "target_min_value": -800,
+      "target_max_value": 800
+    }
+  },
+  "one_matrix_cofactor": {
+    "combination": [
+      1.6
+    ],
+    "score": 86.0,
+    "overall_min": -735.0,
+    "overall_max": 779.0,
+    "min_abs": 0.0,
+    "count": 52130,
+    "optimized": true,
+    "metadata": {
+      "is_single_step": true,
+      "components": [
+        "ONE_COFACTOR"
+      ],
+      "difficulty_category": "ONE_TOOL_CALL",
+      "task_enum": "ONE_COFACTOR",
+      "entropy_jitter": 0.2,
+      "min_element_abs": 2,
+      "step_size": 0.1,
+      "samples_per_test": 8000,
+      "target_min_value": -800,
+      "target_max_value": 800
+    }
+  },
+  "two_transpose_determinant": {
+    "combination": [
+      0.7,
+      0.0
+    ],
+    "score": 360.0,
+    "overall_min": -216.0,
+    "overall_max": 224.0,
+    "min_abs": 0.0,
+    "count": 59950,
+    "optimized": true,
+    "metadata": {
+      "is_single_step": false,
+      "components": [
+        "ONE_TRANSPOSE",
+        "ONE_DETERMINANT"
+      ],
+      "difficulty_category": "TWO_TOOL_CALLS",
+      "task_enum": "TWO_TRANSPOSE_DETERMINANT",
+      "entropy_jitter": 0.2,
+      "min_element_abs": 2,
+      "step_size": 0.1,
+      "samples_per_test": 8000,
+      "target_min_value": -400,
+      "target_max_value": 400
+    }
+  },
+  "two_cofactor_trace": {
+    "combination": [
+      1.4,
+      0.0
+    ],
+    "score": 527.0,
+    "overall_min": -469.0,
+    "overall_max": 604.0,
+    "min_abs": 0.0,
+    "count": 60420,
+    "optimized": true,
+    "metadata": {
+      "is_single_step": false,
+      "components": [
+        "ONE_COFACTOR",
+        "ONE_TRACE"
+      ],
+      "difficulty_category": "TWO_TOOL_CALLS",
+      "task_enum": "TWO_COFACTOR_TRACE",
+      "entropy_jitter": 0.2,
+      "min_element_abs": 2,
+      "step_size": 0.1,
+      "samples_per_test": 8000,
+      "target_min_value": -800,
+      "target_max_value": 800
+    }
+  },
+  "two_cofactor_rank": {
+    "combination": [
+      1.5,
+      0.0
+    ],
+    "score": 640.0,
+    "overall_min": -480.0,
+    "overall_max": 480.0,
+    "min_abs": 0.0,
+    "count": 59570,
+    "optimized": true,
+    "metadata": {
+      "is_single_step": false,
+      "components": [
+        "ONE_COFACTOR",
+        "ONE_RANK"
+      ],
+      "difficulty_category": "TWO_TOOL_CALLS",
+      "task_enum": "TWO_COFACTOR_RANK",
+      "entropy_jitter": 0.2,
+      "min_element_abs": 2,
+      "step_size": 0.1,
+      "samples_per_test": 8000,
+      "target_min_value": -800,
+      "target_max_value": 800
+    }
+  },
+  "two_transpose_frobenius": {
+    "combination": [
+      2.8,
+      0.0
+    ],
+    "score": 516.12,
+    "overall_min": -315.0,
+    "overall_max": 768.88,
+    "min_abs": 2.0,
+    "count": 60195,
+    "optimized": true,
+    "metadata": {
+      "is_single_step": false,
+      "components": [
+        "ONE_TRANSPOSE",
+        "ONE_FROBENIUS_NORM"
+      ],
+      "difficulty_category": "TWO_TOOL_CALLS",
+      "task_enum": "TWO_TRANSPOSE_FROBENIUS",
+      "entropy_jitter": 0.2,
+      "min_element_abs": 2,
+      "step_size": 0.1,
+      "samples_per_test": 8000,
+      "target_min_value": -800,
+      "target_max_value": 800
+    }
+  },
+  "three_transpose_cofactor_rank": {
+    "combination": [
+      3.2,
+      0.0,
+      0.0
+    ],
+    "score": 19.0,
+    "overall_min": -790.0,
+    "overall_max": 791.0,
+    "min_abs": 2.0,
+    "count": 72000,
+    "optimized": true,
+    "metadata": {
+      "is_single_step": false,
+      "components": [
+        "ONE_TRANSPOSE",
+        "ONE_COFACTOR",
+        "ONE_RANK"
+      ],
+      "difficulty_category": "THREE_TOOL_CALLS",
+      "task_enum": "THREE_TRANSPOSE_COFACTOR_RANK",
+      "entropy_jitter": 0.2,
+      "min_element_abs": 2,
+      "step_size": 0.1,
+      "samples_per_test": 8000,
+      "target_min_value": -800,
+      "target_max_value": 800
+    }
+  },
+  "three_cofactor_transpose_trace": {
+    "combination": [
+      2.9,
+      0.0,
+      0.0
+    ],
+    "score": 61.0,
+    "overall_min": -765.0,
+    "overall_max": 774.0,
+    "min_abs": 0.0,
+    "count": 72000,
+    "optimized": true,
+    "metadata": {
+      "is_single_step": false,
+      "components": [
+        "ONE_COFACTOR",
+        "ONE_TRANSPOSE",
+        "ONE_TRACE"
+      ],
+      "difficulty_category": "THREE_TOOL_CALLS",
+      "task_enum": "THREE_COFACTOR_TRANSPOSE_TRACE",
+      "entropy_jitter": 0.2,
+      "min_element_abs": 2,
+      "step_size": 0.1,
+      "samples_per_test": 8000,
+      "target_min_value": -800,
+      "target_max_value": 800
+    }
+  },
+  "three_transpose_cofactor_frobenius": {
+    "combination": [
+      2.9,
+      0.0,
+      0.0
+    ],
+    "score": 505.41999999999996,
+    "overall_min": -395.0,
+    "overall_max": 699.58,
+    "min_abs": 2.0,
+    "count": 72000,
+    "optimized": true,
+    "metadata": {
+      "is_single_step": false,
+      "components": [
+        "ONE_TRANSPOSE",
+        "ONE_COFACTOR",
+        "ONE_FROBENIUS_NORM"
+      ],
+      "difficulty_category": "THREE_TOOL_CALLS",
+      "task_enum": "THREE_TRANSPOSE_COFACTOR_FROBENIUS",
+      "entropy_jitter": 0.2,
+      "min_element_abs": 2,
+      "step_size": 0.1,
+      "samples_per_test": 8000,
+      "target_min_value": -800,
+      "target_max_value": 800
+    }
+  }
+}

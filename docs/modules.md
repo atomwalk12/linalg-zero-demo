@@ -1,0 +1,1 @@
+::: linalg_zero.generate

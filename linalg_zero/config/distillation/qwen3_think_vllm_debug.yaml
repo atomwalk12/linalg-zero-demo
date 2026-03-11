@@ -1,0 +1,65 @@
+# Distillation Configuration for vLLM inference
+
+# Dataset parameters
+dataset_name: "atomwalk12/linalgzero"
+# dataset_name: "atomwalk12/linalg-distilled-debug"
+debug_mode: True
+dataset_config: null
+take_n: 20
+
+# Prompt parameters
+prompt_column: "prompt"
+prompt_template: "{{ instruction }}"
+
+# Generation parameters
+model_type: "default"
+deterministic: true
+max_new_tokens: 8192 #  32768
+num_generations: 1
+
+# Processing parameters
+input_batch_size: 3
+use_cache: true
+client_replicas: 1
+timeout: 600
+retries: 2
+
+# Output parameters
+hf_output_dataset: "atomwalk12/linalgzero-distilled-debug"
+argilla_output_dataset: "atomwalk12/linalgzero-distilled-debug"
+private: false
+
+# Server parameters
+# To inspect the various model/chat template combinations:
+# https://github.com/vllm-project/vllm/blob/main/docs/features/tool_calling.md
+
+model: "Eslzzyl/Qwen3-4B-Thinking-2507-AWQ"
+tool_call_parser: "hermes"
+reasoning_parser: "qwen3" # "deepseek_r1"
+
+#model: "lurker18/Llama_3.1_8B_Instruct_AWQ_4bit"
+#tool_call_parser: "llama3_json"
+#chat_template: "linalg_zero/distillation/vllm/tool_chat_template_llama3.1_json.jinja"
+
+#model: "solidrust/Mistral-7B-Instruct-v0.3-AWQ"
+#tool_call_parser: "mistral"
+#chat_template: "linalg_zero/distillation/vllm/tool_chat_template_mistral_parallel.jinja"
+
+enable_auto_tool_choice: true
+quantization: "awq"
+host: "localhost"
+port: 8000
+
+# Memory / performance tuning for 24GB GPU
+dtype: "float16"
+kv_cache_dtype: "fp8"
+max_num_seqs: 1
+gpu_memory_utilization: 0.85
+enforce_eager: true
+swap_space: 4
+max_num_batched_tokens: 2048
+max_model_len: 32768 # 131072
+enable_chunked_prefill: true
+
+# Distillation parameters
+n_turns: 6

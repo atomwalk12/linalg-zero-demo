@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="LinAlgZero assistant avatar">
+  <rect width="96" height="96" rx="18" fill="#ffffff"/>
+  <rect x="3" y="3" width="90" height="90" rx="16" fill="none" stroke="#dbe4f0" stroke-width="2"/>
+
+  <path d="M44 17h8v8h12a5.5 5.5 0 0 1 5.5 5.5v24a5.5 5.5 0 0 1-5.5 5.5H32a5.5 5.5 0 0 1-5.5-5.5v-24A5.5 5.5 0 0 1 32 25h12z" fill="none" stroke="#667eea" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="41.5" cy="39.5" r="3.2" fill="#667eea"/>
+  <circle cx="54.5" cy="39.5" r="3.2" fill="#667eea"/>
+  <path d="M40.5 48c3 3.6 5.5 5.2 7.5 5.2s4.5-1.6 7.5-5.2" fill="none" stroke="#667eea" stroke-width="3" stroke-linecap="round"/>
+  <path d="M27 61h10M59 61h10" stroke="#667eea" stroke-width="3" stroke-linecap="round"/>
+</svg>

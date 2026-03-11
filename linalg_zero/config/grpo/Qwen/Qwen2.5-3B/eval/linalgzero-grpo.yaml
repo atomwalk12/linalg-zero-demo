@@ -1,0 +1,62 @@
+init:
+  max_lora_rank: 32
+  dtype: bfloat16
+  load_in_4bit: false
+  load_in_8bit: false
+  max_seq_length: 10240
+
+training:
+  trajectories_per_group: 4
+  groups_per_step: 8
+  learning_rate: 2e-6
+  beta: 0.03
+  eval_steps: 100
+  num_epochs: 2
+  train_mode: sync_rl
+  chat_template: "{%- if tools %}\n    {{- '<|im_start|>system\\n' }}\n    {%- if messages[0]['role'] == 'system' %}\n        {{- messages[0]['content'] }}\n    {%- else %}\n        {{- 'You are a helpful assistant.' }}\n    {%- endif %}\n    {{- \"\\n\\n# Tools\\n\\nYou may call one or more functions to assist with the user query.\\n\\nYou are provided with function signatures within <tools></tools> XML tags:\\n<tools>\" }}\n    {%- for tool in tools %}\n        {{- \"\\n\" }}\n        {{- tool | tojson }}\n    {%- endfor %}\n    {{- \"\\n</tools>\\n\\nFor each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:\\n<tool_call>\\n{\\\"name\\\": <function-name>, \\\"arguments\\\": <args-json-object>}\\n</tool_call><|im_end|>\\n\" }}\n{%- else %}\n    {%- if messages[0]['role'] == 'system' %}\n        {{- '<|im_start|>system\\n' + messages[0]['content'] + '<|im_end|>\\n' }}\n    {%- else %}\n        {{- '<|im_start|>system\\nYou are a helpful assistant.<|im_end|>\\n' }}\n    {%- endif %}\n{%- endif %}\n{%- for message in messages %}\n    {%- if (message.role == \"user\") or (message.role == \"system\" and not loop.first) or (message.role == \"assistant\" and not message.tool_calls) %}\n        {{- '<|im_start|>' + message.role + '\\n' + message.content + '<|im_end|>' + '\\n' }}\n    {%- elif message.role == \"assistant\" %}\n        {{- '<|im_start|>' + message.role }}\n        {%- if message.content %}\n            {{- '\\n' + message.content }}\n        {%- endif %}\n        {%- for tool_call in message.tool_calls %}\n            {%- if tool_call.function is defined %}\n                {%- set tool_call = tool_call.function %}\n            {%- endif %}\n            {{- '\\n<tool_call>\\n{\"name\": \"' }}\n            {{- tool_call.name }}\n            {{- '\", \"arguments\": ' }}\n            {{- tool_call.arguments | tojson }}\n            {{- '}\\n</tool_call>' }}\n        {%- endfor %}\n        {{- '<|im_end|>\\n' }}\n    {%- elif message.role == \"tool\" %}\n        {%- if (loop.index0 == 0) or (messages[loop.index0 - 1].role != \"tool\") %}\n            {{- '<|im_start|>user' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- message.content }}\n        {{- '\\n</tool_response>' }}\n        {%- if loop.last or (messages[loop.index0 + 1].role != \"tool\") %}\n            {{- '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|im_start|>assistant\\n' }}\n{%- endif %}\n"
+
+run:
+  project_id: LinAlgZero-GRPO-001
+  project: linalgzero-eval
+  base_model: "atomwalk12/LinAlgZero-GRPO"
+  model: "atomwalk12/LinAlgZero-GRPO"
+  dataset_path: "atomwalk12/linalgzero-grpo"
+  env: linear_algebra
+  model_provider: hosted_vllm
+  user_model_provider: openai
+  user_strategy: mathematician
+  user_model: gpt-4o
+  agent_strategy: tool-calling-rl
+  temperature: 0.0
+  top_p: null
+  repetition_penalty: 1.0
+  task_split: test
+  log_dir: rl_results
+  skip_eval: False
+  in_process: False
+  max_assistant_turns: 5
+  max_completion_tokens: 1536
+  skip_special_tokens: False
+  stop: [
+    "<tool_response>",
+    "</tool_response>",
+    "User:",
+  ]
+  seed: 42
+
+trainer:
+  max_prompt_length: 8192
+  max_completion_length: 1536
+  report_to: ["wandb"]
+  seed: 42
+  data_seed: 42
+
+engine:
+  gpu_memory_utilization: 0.6
+  max_lora_rank: 32
+  enable_sleep_mode: true
+  max_model_len: 10240
+  dtype: 'bfloat16'
+  quantization: null
+  load_format: 'auto'
+  seed: 42
