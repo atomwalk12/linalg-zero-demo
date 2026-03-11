@@ -1,3 +1,4 @@
+import argparse
 import gc
 import json
 import os
@@ -79,6 +80,17 @@ SIMPLE_EXAMPLE_QUERIES = [
     "Find the Frobenius norm of [[3, -2], [-1, 5]].",
     "Find the cofactor matrix of [[5, 2], [1, 3]].",
 ]
+
+
+def _parse_launch_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument(
+        "--share",
+        action="store_true",
+        help="Enable a public Gradio share link.",
+    )
+    args, _ = parser.parse_known_args()
+    return args
 
 
 def _extract_example_query(example: dict[str, Any]) -> str | None:
@@ -947,9 +959,10 @@ with gr.Blocks(title="LLM Inference with ZeroGPU") as demo:
     )
 
 if __name__ == "__main__":
+    launch_args = _parse_launch_args()
     demo.launch(
         theme=demo_theme,
         css=demo_css,
-        share=False,
+        share=launch_args.share,
         ssr_mode=False,
     )
