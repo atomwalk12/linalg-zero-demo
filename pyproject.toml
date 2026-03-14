@@ -28,3 +28,9 @@ package = true
 
 [tool.setuptools.packages.find]
 include = ["linalg_zero*"]
+
+[tool.mypy]
+
+[[tool.mypy.overrides]]
+module = ["peft", "peft.*"]
+ignore_missing_imports = true

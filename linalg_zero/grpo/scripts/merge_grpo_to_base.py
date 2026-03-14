@@ -2,10 +2,46 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
+from typing import Protocol, cast
 
 import torch
-from peft import PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
+
+_DTYPE_MAP: dict[str, torch.dtype] = {
+    "float16": torch.float16,
+    "bfloat16": torch.bfloat16,
+    "float32": torch.float32,
+}
+
+
+class MergeableModel(Protocol):
+    def save_pretrained(self, save_directory: str) -> None: ...
+
+    def push_to_hub(self, repo_id: str) -> None: ...
+
+
+class PeftAdapterModel(Protocol):
+    def merge_and_unload(self) -> MergeableModel: ...
+
+
+class PeftModelLoader(Protocol):
+    @staticmethod
+    def from_pretrained(
+        model: object,
+        model_id: str | Path,
+        *,
+        is_trainable: bool = ...,
+    ) -> PeftAdapterModel: ...
+
+
+def load_peft_model() -> PeftModelLoader:
+    try:
+        from peft import PeftModel
+    except ImportError as exc:
+        raise RuntimeError(
+            "This script requires the 'peft' package. Install it before merging a GRPO adapter."
+        ) from exc
+    return cast(PeftModelLoader, PeftModel)
 
 
 def parse_args() -> argparse.Namespace:
@@ -49,7 +85,7 @@ def parse_args() -> argparse.Namespace:
 def resolve_dtype(dtype_name: str) -> torch.dtype | str:
     if dtype_name == "auto":
         return "auto"
-    return getattr(torch, dtype_name)
+    return _DTYPE_MAP[dtype_name]
 
 
 def main() -> None:
@@ -58,22 +94,27 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
 
     torch_dtype = resolve_dtype(args.dtype)
+    peft_model_loader = load_peft_model()
 
     print(f"Loading tokenizer from {args.base_model}")
     tokenizer = AutoTokenizer.from_pretrained(args.base_model)
 
     print(f"Loading base model from {args.base_model}")
-    model = AutoModelForCausalLM.from_pretrained(
+    base_model = AutoModelForCausalLM.from_pretrained(
         args.base_model,
         torch_dtype=torch_dtype,
         device_map=args.device_map,
     )
 
     print(f"Loading adapter from {args.adapter_model}")
-    model = PeftModel.from_pretrained(model, args.adapter_model, is_trainable=False)
+    adapter_model = peft_model_loader.from_pretrained(
+        base_model,
+        args.adapter_model,
+        is_trainable=False,
+    )
 
     print("Merging adapter into base model")
-    merged_model = model.merge_and_unload()
+    merged_model = adapter_model.merge_and_unload()
 
     print(f"Saving merged model to {output_dir}")
     merged_model.save_pretrained(str(output_dir))
