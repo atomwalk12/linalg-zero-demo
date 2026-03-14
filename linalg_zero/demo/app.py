@@ -124,51 +124,39 @@ def _truncate_example_label(query: str, max_chars: int = 96) -> str:
     return one_line_query[: max_chars - 3] + "..."
 
 
-def _load_dataset_example_queries(limit: int = 10) -> tuple[list[str], str | None, str | None]:
-    dataset_candidates = {
-        "atomwalk12/linalgzero-grpo": ["test", "validation", "train"],
-        "atomwalk12/linalgzero": ["validation", "test", "train"],
-        "atomwalk12/linalgzero-sft": ["test", "validation", "train"],
-    }
-
-    for repo, splits in dataset_candidates.items():
-        for split in splits:
-            try:
-                dataset = load_dataset(repo, split=split, streaming=True)
-            except Exception:
-                continue
-
-            queries: list[str] = []
-            seen_queries: set[str] = set()
-            for example in dataset:
-                query = _extract_example_query(example)
-                if not query or query in seen_queries:
-                    continue
-                seen_queries.add(query)
-                queries.append(query)
-                if len(queries) >= limit:
-                    return queries, repo, split
-
-            if queries:
-                return queries, repo, split
-
-    return [], None, None
+DATASET_EXAMPLE_REPO = "atomwalk12/linalgzero-grpo"
+DATASET_EXAMPLE_SPLIT = "test"
 
 
-DATASET_EXAMPLE_QUERIES, DATASET_EXAMPLE_REPO, DATASET_EXAMPLE_SPLIT = _load_dataset_example_queries()
+def _load_dataset_example_queries(limit: int = 10) -> list[str]:
+    try:
+        dataset = load_dataset(
+            DATASET_EXAMPLE_REPO,
+            split=DATASET_EXAMPLE_SPLIT,
+            streaming=True,
+        )
+    except Exception:
+        return []
+
+    queries: list[str] = []
+    for example in dataset:
+        query = _extract_example_query(example)
+        if not query:
+            continue
+        queries.append(query)
+        if len(queries) >= limit:
+            break
+    return queries
+
+
+DATASET_EXAMPLE_QUERIES = _load_dataset_example_queries()
 DATASET_EXAMPLE_CHOICES = [(_truncate_example_label(query), query) for query in DATASET_EXAMPLE_QUERIES]
 SIMPLE_EXAMPLE_ROWS = [[query] for query in SIMPLE_EXAMPLE_QUERIES]
-if DATASET_EXAMPLE_REPO is not None and DATASET_EXAMPLE_SPLIT is not None:
+if DATASET_EXAMPLE_QUERIES:
     DATASET_EXAMPLE_INFO = f"Loaded from {DATASET_EXAMPLE_REPO} ({DATASET_EXAMPLE_SPLIT})"
 else:
     DATASET_EXAMPLE_INFO = "Dataset examples unavailable"
 
-# Match the current GRPO/SFT evaluation configs:
-# - temperature = 0.0
-# - top_p = null (functionally ignored in deterministic mode)
-# - repetition_penalty = 1.0
-# In the actual GRPO eval agent, non-train splits force deterministic decoding
-# (do_sample=False, temperature=0.0, top_p=None), so top_k is effectively unused.
 EVAL_TEMPERATURE = 0.0
 UI_TOP_K_DEFAULT = 40
 UI_TOP_P_DEFAULT = 1.0
