@@ -675,10 +675,16 @@ demo_css = """
 
 with gr.Blocks(title="LLM Inference with ZeroGPU") as demo:
     # Header
-    gr.Markdown("""
-    # 🧠 LinAlgZero Demo
-    ### Multi-turn linear algebra solving with tool calling
-    """)
+    gr.Markdown(
+        """\
+# 🧠 LinAlgZero Demo
+### Multi-turn linear algebra solving with tool calling
+
+[Model Hub](https://github.com/atomwalk12/linalg-zero/) |
+[Report](https://github.com/atomwalk12/linalg-zero/blob/main/docs/report.pdf) |
+[Poster](https://github.com/atomwalk12/linalg-zero/blob/main/docs/poster.pdf)
+"""
+    )
 
     with gr.Row():
         # Left Panel - Configuration
